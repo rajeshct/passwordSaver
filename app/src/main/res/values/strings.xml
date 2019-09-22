@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PasswordLocker</string>
+    <string name="label_change_theme">Switch Theme</string>
+    <string name="label_password_pattern">**********</string>
+</resources>
