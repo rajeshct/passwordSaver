@@ -1,18 +1,10 @@
 package com.remember.password.base
 
-import android.app.Application
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.MutableLiveData
 
-abstract class BaseViewModel(application: Application) : AndroidViewModel(application)
-    , Observable, LifecycleObserver {
-
-    val triggerEvent = MutableLiveData<Int>()
-
+abstract class CustomObservable : Observable {
     @Transient
     private var mCallbacks: PropertyChangeRegistry? = null
 
@@ -60,17 +52,5 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
             }
         }
         mCallbacks?.notifyCallbacks(this, fieldId, null)
-    }
-
-    /**
-     *
-     * @param action Int action id
-     */
-    fun triggerEvent(action: Int) {
-        try {
-            triggerEvent.value = action
-        } catch (exp: Exception) {
-            triggerEvent.postValue(action)
-        }
     }
 }

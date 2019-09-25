@@ -2,4 +2,13 @@
     <string name="app_name">PasswordLocker</string>
     <string name="label_change_theme">Switch Theme</string>
     <string name="label_password_pattern">**********</string>
+    <string name="label_enter_details">Enter details to save</string>
+    <string name="hint_enter_title">Enter title</string>
+    <string name="hint_enter_pwd">Enter password</string>
+    <string name="label_submit">Submit</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="hint_enter_username">Enter username</string>
+    <string name="label_title">Title</string>
+    <string name="label_user_name">Username</string>
+    <string name="label_password">Password</string>
 </resources>

@@ -9,7 +9,7 @@ import com.remember.password.BR
 
 abstract class BaseDiAdapter<T> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHolder>() {
 
-    private var clickCallback: IClickCallback? = null
+    private var clickCallback: IClickCallback<*>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val view = DataBindingUtil.inflate<ViewDataBinding>(
@@ -30,12 +30,11 @@ abstract class BaseDiAdapter<T> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHol
 
     abstract fun getValueAtIndex(position: Int): T
 
-
     /**
      * Register for click Callback
      * @param clickCallback IClickCallback
      */
-    fun registerClickCallBack(clickCallback: IClickCallback) {
+    fun registerClickCallBack(clickCallback: IClickCallback<*>) {
         if (this.clickCallback == null) {
             this.clickCallback = clickCallback
         }
@@ -48,11 +47,11 @@ abstract class BaseDiAdapter<T> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHol
         this.clickCallback = null
     }
 
-    class BaseViewHolder(val viewDataBinding: ViewDataBinding) :
+    class BaseViewHolder(private val viewDataBinding: ViewDataBinding) :
 
         RecyclerView.ViewHolder(viewDataBinding.root) {
 
-        fun <T> refreshRow(position: Int, valueAtIndex: T, clickCallback: IClickCallback?) {
+        fun <T> refreshRow(position: Int, valueAtIndex: T, clickCallback: IClickCallback<*>?) {
             viewDataBinding.setVariable(BR.data, valueAtIndex)
             viewDataBinding.setVariable(BR.position, position)
             viewDataBinding.setVariable(BR.clickCallBack, clickCallback)
@@ -60,7 +59,14 @@ abstract class BaseDiAdapter<T> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHol
         }
     }
 
-    interface IClickCallback {
-        fun onClick(position: Int, tag: Int, data: Any)
+    interface IClickCallback<T> {
+        /**
+         *
+         * @param position Int current row
+         * @param tag Int if their are different types of clicks (say their are three different button in row)
+         * @param data Any if you require data in current position
+         * @param calledFor Int if multiple recyclerView are their and you need to create single callback
+         */
+        fun onClick(position: Int = 0, tag: Int = 0, data: T? = null, calledFor: Int = 0)
     }
 }

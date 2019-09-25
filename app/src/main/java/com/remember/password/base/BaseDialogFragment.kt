@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleObserver
 import com.remember.password.BR
 
-abstract class BaseFragment<VB, VM>
-    : Fragment(),
-    IViewRequired<VM> where VM : BaseViewModel, VM : LifecycleObserver, VB : ViewDataBinding {
-
+abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel>
+    : AppCompatDialogFragment(), IViewRequired<VM> {
     private lateinit var binding: VB
 
     override fun onCreateView(
@@ -23,7 +20,6 @@ abstract class BaseFragment<VB, VM>
     ): View? {
         binding = DataBindingUtil.inflate(inflater, getViewToInflate(), container, false)
         binding.setVariable(BR.viewModel, getViewModel())
-        getViewModel()?.let { lifecycle.addObserver(it) }
         return binding.root
     }
 
@@ -31,5 +27,4 @@ abstract class BaseFragment<VB, VM>
         super.onViewCreated(view, savedInstanceState)
         actionAfterViewInflated()
     }
-
 }
