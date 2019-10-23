@@ -11,4 +11,15 @@
     <string name="label_title">Title</string>
     <string name="label_user_name">Username</string>
     <string name="label_password">Password</string>
+    <string name="hint_enter_new_pwd">Enter new password</string>
+    <string name="hint_confirm_pwd">Confirm password</string>
+    <string name="label_update">Update</string>
+    <string name="label_enter_master_password">Enter master password which will be used to view your all saved password.</string>
+    <string name="label_save">Save</string>
+    <string name="error_weak_pwd">Week Password: length must be greater than 7</string>
+    <string name="error_pwd_match">Password not matching</string>
+    <string name="label_password_length_note">Note: password length must be greater than 7.</string>
+    <string name="font_biryani">biryani</string>
+    <string name="error_master_pwd_match">Password not matched with original password</string>
+    <string name="lable_no_record">No password saved till now. Press + icon at bottom right to start exploring.</string>
 </resources>

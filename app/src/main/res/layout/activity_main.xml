@@ -5,12 +5,20 @@
 
     <data>
 
+        <import
+            alias="view"
+            type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.remember.password.view.landing.viewmodel.LandingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.landing.LandingActivity">
+        tools:context=".view.LandingActivity">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -19,6 +27,8 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -29,21 +39,33 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="cursive"
+                    android:gravity="center"
                     android:text="@string/app_name"
                     android:textSize="@dimen/text_size_medium"
+                    android:visibility="@{viewModel.hideTitle?view.GONE:view.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.hideSearch?view.GONE:view.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/sw_theme"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switch1"
+                    android:id="@+id/sw_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/aclonica"
-                    android:text="@string/label_change_theme"
+                    android:visibility="@{viewModel.hideSwitchTheme?view.GONE:view.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +86,7 @@
 
 
         <fragment
-            android:id="@+id/fragment"
+            android:id="@+id/nav_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -76,6 +98,15 @@
             app:navGraph="@navigation/main_navigation"
             tools:layout="@layout/fragment_home" />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorWhite"
+            android:visibility="@{viewModel.hideEmptyView?view.GONE:view.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

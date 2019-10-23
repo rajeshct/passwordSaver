@@ -1,13 +1,11 @@
 package com.remember.password.view.home.viewmodel
 
 import android.app.Application
-import android.view.View
+import android.os.Bundle
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.remember.password.BR
@@ -16,7 +14,11 @@ import com.remember.password.base.BaseDiAdapter
 import com.remember.password.base.BaseViewModel
 import com.remember.password.data.UiRecord
 import com.remember.password.repository.Repository
-import com.remember.password.util.SHOW_ALERT_ENTER_PASSWORD
+import com.remember.password.util.CustomNavigation
+import com.remember.password.util.INPUT_PASSWORD
+import com.remember.password.util.OPEN_NEW_SCREEN
+import com.remember.password.util.isPerformClick
+import com.remember.password.view.home.HomeFragmentDirections
 import com.remember.password.view.home.adapter.HomeListingAdapter
 
 @BindingAdapter("viewModel")
@@ -33,66 +35,120 @@ fun setListingAdapter(recyclerView: RecyclerView, viewModel: HomeViewModel?) {
 
 class HomeViewModel(
     private val customApplication: Application,
-    private val repository: Repository,
-    private val lifecycleOwner: LifecycleOwner
+    private val repository: Repository
 ) : BaseViewModel(customApplication), BaseDiAdapter.IClickCallback<UiRecord> {
 
     val uiListingData = mutableListOf<UiRecord>()
     var data: UiRecord? = null
 
     @Bindable
-    var updateAdapter: Boolean = false
+    var updateAdapter = false
         private set(value) {
             field = value
             notifyPropertyChanged(BR.updateAdapter)
         }
 
-    override fun onClick(position: Int, tag: Int, data: UiRecord?, calledFor: Int) {
-        this.data = data
-        triggerEvent(SHOW_ALERT_ENTER_PASSWORD)
+    @Bindable
+    var noRecord = false
+        private set(value) {
+            field = value
+            notifyPropertyChanged(BR.noRecord)
+        }
+
+    override fun setArguments(bundle: Bundle?) {
+        // No action required here
     }
 
-    fun actionAfterPasswordFilled() {
+    override fun onClick(position: Int, tag: Int, data: UiRecord?, calledFor: Int) {
+        this.data = data
+        if (this.data?.showPassword == true) {
+            this.data?.apply {
+                showPassword = false
+            }
+            updateAdapter = true
+        } else {
+            switchScreen(
+                CustomNavigation(
+                    navigation = HomeFragmentDirections.actionHomeFragmentToInputPasswordFragment(
+                        INPUT_PASSWORD
+                    ), actionId = OPEN_NEW_SCREEN
+                )
+            )
+        }
+    }
+
+    fun addNewRecord() {
+        if (isPerformClick()) {
+            switchScreen(
+                CustomNavigation(
+                    HomeFragmentDirections.actionHomeFragmentToDialogEnterDetails(),
+                    OPEN_NEW_SCREEN
+                )
+            )
+        }
+    }
+
+    fun getUiData(): LiveData<MutableList<UiRecord>> {
+        return Transformations.map(repository.getListingRecord()) {
+            val allRecords = mutableListOf<UiRecord>()
+            it.forEach { recordEntity ->
+                with(recordEntity) {
+                    allRecords.add(
+                        UiRecord(
+                            id = id ?: 0,
+                            userName = userName,
+                            title = title,
+                            pwd = password
+                        )
+                    )
+                }
+            }
+            return@map allRecords
+        }
+    }
+
+    fun refreshListing() {
         if (data?.isHeader == true) {
-            uiListingData.map {
-                it.showPassword = !it.showPassword
+            if (data?.showPassword == true) {
+                changeShowPassword(false)
+            } else {
+                changeShowPassword(true)
             }
         } else {
-            data?.showPassword = !(data?.showPassword ?: false)
+            data?.apply {
+                showPassword = !showPassword
+            }
         }
         updateAdapter = true
     }
 
-    fun addNewRecord(view: View) {
-        view.findNavController().navigate(R.id.action_homeFragment_to_dialogEnterDetails)
+    private fun changeShowPassword(showPassword: Boolean) {
+        uiListingData.forEach(action = {
+            it.apply {
+                this.showPassword = showPassword
+            }
+        })
     }
 
-    fun getUiData() {
-        Transformations.map(repository.getListingRecord()) {
-            val allRecords = mutableListOf<UiRecord>()
-            allRecords.add(
+    fun updateData(it: MutableList<UiRecord>?) {
+        if (it == null || it.isEmpty()) {
+            noRecord = true
+        } else {
+            uiListingData.clear()
+            uiListingData.add(
                 UiRecord(
+                    id = 0,
                     title = customApplication.getString(R.string.label_title),
                     userName = customApplication.getString(R.string.label_user_name),
-                    pwd = customApplication.getString(R.string.label_password)
-                    , isHeader = true
+                    pwd = customApplication.getString(R.string.label_password),
+                    isHeader = true,
+                    showPassword = true
                 )
             )
-            for (item in it) {
-                allRecords.add(
-                    UiRecord(
-                        userName = item.userName,
-                        title = item.title,
-                        pwd = item.password
-                    )
-                )
-            }
-            return@map allRecords
-        }.observe(lifecycleOwner, Observer {
-            uiListingData.clear()
             uiListingData.addAll(it)
             updateAdapter = true
-        })
+            noRecord = false
+        }
     }
 
 }

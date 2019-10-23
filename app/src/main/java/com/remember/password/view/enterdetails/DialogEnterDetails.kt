@@ -1,12 +1,11 @@
 package com.remember.password.view.enterdetails
 
-import android.view.Gravity
-import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import com.remember.password.R
 import com.remember.password.base.BaseDialogFragment
 import com.remember.password.databinding.DialogEnterDetailsBinding
+import com.remember.password.util.CLOSE_DIALOG
+import com.remember.password.util.INVALID_ACTION
 import com.remember.password.view.enterdetails.viewmodel.EnterDetailViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,24 +25,11 @@ class DialogEnterDetails : BaseDialogFragment<DialogEnterDetailsBinding
 
     override fun actionAfterViewInflated() {
         enterDetailViewModel.triggerEvent.observe(this, Observer {
-            if (it == Constants.CLOSE_DIALOG) {
+            if (it == CLOSE_DIALOG) {
                 dismiss()
-                enterDetailViewModel.triggerEvent(Constants.INVALID_ACTION)
+                enterDetailViewModel.triggerEvent(INVALID_ACTION)
             }
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        val wlp = dialog?.window?.attributes
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        if (wlp != null) {
-            wlp.gravity = Gravity.TOP
-            wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
-            dialog?.window?.attributes = wlp
-        }
-    }
 }

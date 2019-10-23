@@ -1,6 +1,7 @@
 package com.remember.password.data
 
 data class UiRecord(
+    var id: Int,
     var title: String,
     var userName: String,
     var pwd: String,

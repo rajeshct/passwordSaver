@@ -83,16 +83,17 @@
 
         <Button
             android:id="@+id/btn_submit"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()-> viewModel.onSubmitClick()}"
+            android:onClick="@{(v)-> viewModel.onSubmitClick()}"
             android:text="@string/label_submit"
-            android:textAllCaps="false"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintTop_toBottomOf="@+id/ti_password" />
 
         <Button
             android:id="@+id/btn_cancel"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_16"

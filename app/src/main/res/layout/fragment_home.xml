@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.remember.password.view.home.viewmodel.HomeViewModel" />
@@ -18,7 +20,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_20"
             android:layout_marginBottom="@dimen/dp_5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,12 +30,44 @@
             bind:viewModel="@{viewModel}"
             tools:listitem="@layout/item_listing_details" />
 
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.noRecord?View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="iv_no_record,tv_no_record" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_no_record"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_200"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="3:2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.32999998"
+            app:srcCompat="@drawable/ic_empty_record" />
+
+        <TextView
+            android:id="@+id/tv_no_record"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:fontFamily="@font/biryani"
+            android:text="@string/lable_no_record"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_no_record"
+            app:srcCompat="@drawable/ic_empty_record" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_16"
-            android:onClick="@{(v)->viewModel.addNewRecord(v)}"
+            android:onClick="@{(v)->viewModel.addNewRecord()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_record" />

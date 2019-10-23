@@ -1,20 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
     app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.remember.password.view.home.HomeFragment"
-        android:label="HomeFragment">
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+
         <action
             android:id="@+id/action_homeFragment_to_dialogEnterDetails"
             app:destination="@id/dialogEnterDetails"
             app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_inputPasswordFragment"
+            app:destination="@id/inputPasswordFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_masterPasswordFragment"
+            app:destination="@id/masterPasswordFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true" />
     </fragment>
+
     <dialog
         android:id="@+id/dialogEnterDetails"
         android:name="com.remember.password.view.enterdetails.DialogEnterDetails"
-        android:label="DialogEnterDetails" />
+        android:label="DialogEnterDetails"
+        tools:layout="@layout/dialog_enter_details" />
+
+    <dialog
+        android:id="@+id/inputPasswordFragment"
+        android:name="com.remember.password.view.inputpassword.InputPasswordFragment"
+        android:label="InputPasswordFragment"
+        tools:layout="@layout/dialog_input_password">
+        <argument
+            android:name="openFor"
+            app:argType="integer" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/masterPasswordFragment"
+        android:name="com.remember.password.view.masterpassword.MasterPasswordFragment"
+        android:label="MasterPasswordFragment"
+        tools:layout="@layout/fragment_master_password">
+        <action
+            android:id="@+id/action_masterPasswordFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

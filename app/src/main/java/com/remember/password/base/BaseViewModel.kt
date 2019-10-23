@@ -1,20 +1,31 @@
 package com.remember.password.base
 
 import android.app.Application
+import android.os.Bundle
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.remember.password.util.CustomNavigation
 
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application)
     , Observable, LifecycleObserver {
 
     val triggerEvent = MutableLiveData<Int>()
 
+    private val switchScreen = MutableLiveData<CustomNavigation>()
+
     @Transient
     private var mCallbacks: PropertyChangeRegistry? = null
+
+    /**
+     * All arguments passed while opening activity or fragment
+     * @param bundle Bundle?
+     */
+    abstract fun setArguments(bundle: Bundle?)
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback) {
         synchronized(this) {
@@ -72,5 +83,14 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         } catch (exp: Exception) {
             triggerEvent.postValue(action)
         }
+    }
+
+    fun getSwitchScreen(): LiveData<CustomNavigation> {
+        return switchScreen
+    }
+
+
+    fun switchScreen(customNavigation: CustomNavigation) {
+        switchScreen.value = customNavigation
     }
 }
