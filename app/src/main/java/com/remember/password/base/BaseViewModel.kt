@@ -90,7 +90,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     }
 
 
-    fun switchScreen(customNavigation: CustomNavigation) {
+    fun switchScreen(customNavigation: CustomNavigation?) {
         switchScreen.value = customNavigation
     }
 }

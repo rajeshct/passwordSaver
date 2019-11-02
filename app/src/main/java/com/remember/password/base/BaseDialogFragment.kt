@@ -52,6 +52,7 @@ abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel>
                 return@Observer
             }
             switchScreenChange(it)
+            getViewModel()?.switchScreen(null)
         })
     }
 

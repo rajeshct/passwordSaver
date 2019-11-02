@@ -10,7 +10,7 @@ import com.remember.password.util.CLOSE_DIALOG_WITH_SUCCESS
 import com.remember.password.util.REFRESH_PASSWORD_LISTING
 import com.remember.password.util.SHOW_SNACK_BAR
 import com.remember.password.view.inputpassword.viewmodel.InputPasswordViewModel
-import com.remember.password.view.landing.viewmodel.LandingViewModel
+import com.remember.password.view.landing.viewmodel.HomeScreenViewModel
 import kotlinx.android.synthetic.main.dialog_input_password.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class InputPasswordFragment :
     BaseDialogFragment<DialogInputPasswordBinding, InputPasswordViewModel>() {
     private val inputPasswordViewModel: InputPasswordViewModel by viewModel()
-    private val landingViewModel: LandingViewModel by sharedViewModel()
+    private val homeScreenViewModel: HomeScreenViewModel by sharedViewModel()
 
     override fun getViewToInflate(): Int {
         return R.layout.dialog_input_password
@@ -31,7 +31,7 @@ class InputPasswordFragment :
     override fun actionAfterViewInflated() {
         inputPasswordViewModel.triggerEvent.observe(viewLifecycleOwner, Observer {
             if (it == CLOSE_DIALOG_WITH_SUCCESS) {
-                landingViewModel.refreshListing.value = REFRESH_PASSWORD_LISTING
+                homeScreenViewModel.refreshListing.value = REFRESH_PASSWORD_LISTING
                 dismiss()
             } else if (it == SHOW_SNACK_BAR) {
                 Snackbar.make(

@@ -22,4 +22,7 @@
     <string name="font_biryani">biryani</string>
     <string name="error_master_pwd_match">Password not matched with original password</string>
     <string name="lable_no_record">No password saved till now. Press + icon at bottom right to start exploring.</string>
+    <string name="label_no_search_record">No record found with matching search.</string>
+    <string name="alert_undo">1 item deleted </string>
+    <string name="alert_undo_action">Undo</string>
 </resources>

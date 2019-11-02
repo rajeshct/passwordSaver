@@ -1,13 +1,12 @@
 package com.remember.password.util
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 
-class SharedPreferenceUtils(val application: Application) {
+class SharedPreferenceUtils(context: Context) {
 
     var pref: SharedPreferences =
-        application.getSharedPreferences("secure_file", Context.MODE_PRIVATE)
+        context.getSharedPreferences("secure_file", Context.MODE_PRIVATE)
 
     fun setBoolean(key: String, value: Boolean) {
         pref.edit().putBoolean(key, value).apply()

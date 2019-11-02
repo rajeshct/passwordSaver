@@ -17,7 +17,7 @@ abstract class BaseFragment<VB, VM>
                                           , VM : LifecycleObserver
                                           , VB : ViewDataBinding {
 
-    private lateinit var binding: VB
+    protected lateinit var binding: VB
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +44,7 @@ abstract class BaseFragment<VB, VM>
                 return@Observer
             }
             switchScreenChange(it)
+            getViewModel()?.switchScreen(null)
         })
     }
 
@@ -52,5 +53,4 @@ abstract class BaseFragment<VB, VM>
             (requireActivity() as BaseActivity<*, *>).uiScreenNavigation(it)
         }
     }
-
 }

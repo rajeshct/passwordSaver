@@ -9,16 +9,18 @@ import com.remember.password.BR
 import com.remember.password.base.BaseViewModel
 import com.remember.password.repository.Repository
 import com.remember.password.util.CustomNavigation
+import com.remember.password.util.INVALID_ACTION
 import com.remember.password.util.OPEN_NEW_SCREEN
 import com.remember.password.view.home.HomeFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LandingViewModel(application: Application, private val repository: Repository) :
+class HomeScreenViewModel(application: Application, private val repository: Repository) :
     BaseViewModel(application) {
 
     val refreshListing = MutableLiveData<Int>()
+    val searchText = MutableLiveData<String>()
 
     @Bindable
     var hideSearch: Boolean = false
@@ -70,5 +72,11 @@ class LandingViewModel(application: Application, private val repository: Reposit
         }
     }
 
+    fun clearRefreshListing() {
+        refreshListing.value = INVALID_ACTION
+    }
 
+    fun clearSearchText() {
+        searchText.value = null
+    }
 }

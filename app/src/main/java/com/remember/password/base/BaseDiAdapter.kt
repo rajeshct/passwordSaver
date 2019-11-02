@@ -7,9 +7,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.remember.password.BR
 
-abstract class BaseDiAdapter<T> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHolder>() {
+abstract class BaseDiAdapter<P> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHolder>() {
 
-    private var clickCallback: IClickCallback<*>? = null
+    private var clickCallback: IClickCallback? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val view = DataBindingUtil.inflate<ViewDataBinding>(
@@ -28,13 +28,13 @@ abstract class BaseDiAdapter<T> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHol
 
     abstract fun getLayoutIdAtPosition(position: Int): Int
 
-    abstract fun getValueAtIndex(position: Int): T
+    abstract fun getValueAtIndex(position: Int): P
 
     /**
      * Register for click Callback
      * @param clickCallback IClickCallback
      */
-    fun registerClickCallBack(clickCallback: IClickCallback<*>) {
+    fun registerClickCallBack(clickCallback: IClickCallback) {
         if (this.clickCallback == null) {
             this.clickCallback = clickCallback
         }
@@ -47,11 +47,22 @@ abstract class BaseDiAdapter<T> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHol
         this.clickCallback = null
     }
 
+    /**
+     * This function will call whenever user perform swipe left|right
+     */
+    fun deleteItem(position: Int) {
+        clickCallback?.onSwipeDelete(position, getValueAtIndex(position))
+    }
+
     class BaseViewHolder(private val viewDataBinding: ViewDataBinding) :
-
         RecyclerView.ViewHolder(viewDataBinding.root) {
+        var isHeader = false
 
-        fun <T> refreshRow(position: Int, valueAtIndex: T, clickCallback: IClickCallback<*>?) {
+        fun <T> refreshRow(
+            position: Int,
+            valueAtIndex: T,
+            clickCallback: IClickCallback?
+        ) {
             viewDataBinding.setVariable(BR.data, valueAtIndex)
             viewDataBinding.setVariable(BR.position, position)
             viewDataBinding.setVariable(BR.clickCallBack, clickCallback)
@@ -59,14 +70,22 @@ abstract class BaseDiAdapter<T> : RecyclerView.Adapter<BaseDiAdapter.BaseViewHol
         }
     }
 
-    interface IClickCallback<T> {
+    interface IClickCallback {
         /**
          *
          * @param position Int current row
          * @param tag Int if their are different types of clicks (say their are three different button in row)
-         * @param data Any if you require data in current position
+         * @param data Any if you require lastSavedUiRecord in current position
          * @param calledFor Int if multiple recyclerView are their and you need to create single callback
          */
-        fun onClick(position: Int = 0, tag: Int = 0, data: T? = null, calledFor: Int = 0)
+        fun onClick(position: Int = 0, tag: Int = 0, data: Any? = null, calledFor: Int = 0)
+
+        /**
+         * This function will trigger whenever user press swipe left/right
+         * @param position position where user swiped
+         * @param data lastSavedUiRecord at current index
+         * @param calledFor Int if multiple recyclerView are their and you need to create single callback
+         */
+        fun onSwipeDelete(position: Int, data: Any? = null, calledFor: Int = 0)
     }
 }

@@ -13,11 +13,12 @@ import com.remember.password.util.OPEN_NEW_SCREEN
 abstract class BaseActivity<VB : ViewDataBinding?, VM : BaseViewModel?> : AppCompatActivity(),
     IViewRequired<VM> {
 
-    private var binding: VB? = null
+    protected var binding: VB? = null
 
     abstract fun getNavHost(): Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setThemeOfUserChoice()
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<VB>(this, getViewToInflate())
         binding?.setVariable(BR.viewModel, getViewModel())
@@ -33,6 +34,7 @@ abstract class BaseActivity<VB : ViewDataBinding?, VM : BaseViewModel?> : AppCom
                 return@Observer
             }
             uiScreenNavigation(it)
+            getViewModel()?.switchScreen(null)
         })
     }
 
@@ -45,5 +47,7 @@ abstract class BaseActivity<VB : ViewDataBinding?, VM : BaseViewModel?> : AppCom
             }
         }
     }
+
+    protected open fun setThemeOfUserChoice() {}
 
 }

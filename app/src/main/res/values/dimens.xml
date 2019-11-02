@@ -10,4 +10,7 @@
     <dimen name="dp_20">20dp</dimen>
     <dimen name="dp_button_min_height">52dp</dimen>
     <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
 </resources>

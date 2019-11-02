@@ -3,7 +3,7 @@ package com.remember.password.view.masterpassword
 import com.remember.password.R
 import com.remember.password.base.BaseFragment
 import com.remember.password.databinding.FragmentMasterPasswordBinding
-import com.remember.password.view.landing.viewmodel.LandingViewModel
+import com.remember.password.view.landing.viewmodel.HomeScreenViewModel
 import com.remember.password.view.masterpassword.viewmodel.MasterPasswordViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -11,7 +11,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MasterPasswordFragment : BaseFragment<FragmentMasterPasswordBinding
         , MasterPasswordViewModel>() {
     private val masterPasswordViewModel: MasterPasswordViewModel by viewModel()
-    private val landingViewModel: LandingViewModel by sharedViewModel()
+    private val homeScreenViewModel: HomeScreenViewModel by sharedViewModel()
 
     override fun getViewToInflate(): Int {
         return R.layout.fragment_master_password
@@ -22,7 +22,7 @@ class MasterPasswordFragment : BaseFragment<FragmentMasterPasswordBinding
     }
 
     override fun actionAfterViewInflated() {
-        landingViewModel.hideSearch = true
-        landingViewModel.hideSwitchTheme = true
+        homeScreenViewModel.hideSearch = true
+        homeScreenViewModel.hideSwitchTheme = true
     }
 }

@@ -6,7 +6,7 @@ import com.remember.password.repository.Repository
 import com.remember.password.view.enterdetails.viewmodel.EnterDetailViewModel
 import com.remember.password.view.home.viewmodel.HomeViewModel
 import com.remember.password.view.inputpassword.viewmodel.InputPasswordViewModel
-import com.remember.password.view.landing.viewmodel.LandingViewModel
+import com.remember.password.view.landing.viewmodel.HomeScreenViewModel
 import com.remember.password.view.masterpassword.viewmodel.MasterPasswordViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -28,7 +28,7 @@ private val basicDependency = module {
     }
 
     viewModel {
-        LandingViewModel(androidApplication(), get())
+        HomeScreenViewModel(androidApplication(), get())
     }
 
     viewModel {

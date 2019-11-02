@@ -11,14 +11,14 @@
 
         <variable
             name="viewModel"
-            type="com.remember.password.view.landing.viewmodel.LandingViewModel" />
+            type="com.remember.password.view.landing.viewmodel.HomeScreenViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.LandingActivity">
+        tools:context=".view.HomeScreenActivity">
 
 
         <androidx.appcompat.widget.Toolbar

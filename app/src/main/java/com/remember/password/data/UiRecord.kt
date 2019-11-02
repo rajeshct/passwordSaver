@@ -7,4 +7,13 @@ data class UiRecord(
     var pwd: String,
     var isHeader: Boolean = false,
     var showPassword: Boolean = false
-)
+) {
+
+    fun uiTitle(): String {
+        return if (isHeader) {
+            pwd
+        } else {
+            if (showPassword) pwd else "**********"
+        }
+    }
+}
