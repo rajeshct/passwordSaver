@@ -42,9 +42,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{data.title}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_user_name"
-                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintHorizontal_weight="0.25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{data.userName}"
                 app:layout_constraintEnd_toStartOf="@+id/iv_visibility"
-                app:layout_constraintHorizontal_weight="0.6"
+                app:layout_constraintHorizontal_weight="0.65"
                 app:layout_constraintStart_toEndOf="@+id/tv_title"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +63,7 @@
                 style="@style/TestStyleNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{data.pwd}"
+                android:text="@{data.showPassword?data.pwd:@string/label_password_pattern}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/tv_user_name"
                 app:layout_constraintStart_toStartOf="@+id/tv_user_name"
@@ -75,7 +74,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->clickCallBack.onClick(position,0,data,Constant.TAG_SHOW_HIDE_PASSWORD)}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="0.1"
                 app:layout_constraintStart_toEndOf="@+id/tv_user_name"

@@ -180,7 +180,6 @@ class HomeViewModel(
             id = 0,
             title = customApplication.getString(R.string.label_title),
             userName = customApplication.getString(R.string.label_user_name),
-            pwd = customApplication.getString(R.string.label_password),
             isHeader = true,
             showPassword = false
         )

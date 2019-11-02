@@ -9,7 +9,7 @@
     <string name="label_cancel">Cancel</string>
     <string name="hint_enter_username">Enter username</string>
     <string name="label_title">Title</string>
-    <string name="label_user_name">Username</string>
+    <string name="label_user_name">Username/Password</string>
     <string name="label_password">Password</string>
     <string name="hint_enter_new_pwd">Enter new password</string>
     <string name="hint_confirm_pwd">Confirm password</string>
