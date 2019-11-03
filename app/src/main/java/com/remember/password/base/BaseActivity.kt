@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import com.remember.password.BR
 import com.remember.password.util.CustomNavigation
 import com.remember.password.util.OPEN_NEW_SCREEN
+import com.remember.password.util.POP_STACK
 
 abstract class BaseActivity<VB : ViewDataBinding?, VM : BaseViewModel?> : AppCompatActivity(),
     IViewRequired<VM> {
@@ -44,6 +45,9 @@ abstract class BaseActivity<VB : ViewDataBinding?, VM : BaseViewModel?> : AppCom
                 navigation.navigation?.let { direction ->
                     findNavController(getNavHost()).navigate(direction)
                 }
+            }
+            POP_STACK -> {
+                findNavController(getNavHost()).popBackStack()
             }
         }
     }

@@ -85,11 +85,12 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/ti_userName"
             app:passwordToggleEnabled="true"
-            bind:errorMessage='@{viewModel.buttonClicked?(Utils.isValidPassword(viewModel.password)?"":@string/error_weak_pwd):""}'>
+            bind:errorMessage='@{viewModel.buttonClicked?(Utils.isBlank(viewModel.password)?@string/error_weak_pwd:""):""}'>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:text="@={viewModel.password}" />
 

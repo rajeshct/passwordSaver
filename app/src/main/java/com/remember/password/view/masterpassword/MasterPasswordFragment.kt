@@ -10,6 +10,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MasterPasswordFragment : BaseFragment<FragmentMasterPasswordBinding
         , MasterPasswordViewModel>() {
+
     private val masterPasswordViewModel: MasterPasswordViewModel by viewModel()
     private val homeScreenViewModel: HomeScreenViewModel by sharedViewModel()
 
@@ -24,5 +25,6 @@ class MasterPasswordFragment : BaseFragment<FragmentMasterPasswordBinding
     override fun actionAfterViewInflated() {
         homeScreenViewModel.hideSearch = true
         homeScreenViewModel.hideSwitchTheme = true
+        homeScreenViewModel.hideEmptyView = true
     }
 }

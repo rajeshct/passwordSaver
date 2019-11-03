@@ -49,7 +49,11 @@ class HomeViewModel(
     private val repository: Repository
 ) : BaseViewModel(customApplication), BaseDiAdapter.IClickCallback {
 
+    private var lastClickedPosition = -1
+    var passwordListingAdapter: HomeListingAdapter? = null
     private val searchChange = MutableLiveData<String>()
+    private var lastSavedUiRecord: UiRecord? = null
+    val uiListingData = mutableListOf<UiRecord>()
 
     var uiListingRecordFromDb: LiveData<List<UiRecord>> =
         Transformations.switchMap(searchChange, Function {
@@ -59,10 +63,6 @@ class HomeViewModel(
             return@Function repository.getRecordBasedOnUserSearch(it)
         })
 
-    val uiListingData = mutableListOf<UiRecord>()
-
-    private var lastSavedUiRecord: UiRecord? = null
-
     private var deletedItems: MutableList<UiRecord>? = null
         get() {
             if (field == null) {
@@ -70,10 +70,6 @@ class HomeViewModel(
             }
             return field
         }
-
-    var passwordListingAdapter: HomeListingAdapter? = null
-
-    private var lastClickedPosition = -1
 
     @Bindable
     var errorViewType: Int = SHOW_ADD_NEW_RECORD
@@ -182,13 +178,13 @@ class HomeViewModel(
             } else {
                 changeShowPassword(true)
             }
-            updateAdapter = true
         } else {
             lastSavedUiRecord?.apply {
                 showPassword = !showPassword
             }
-            passwordListingAdapter?.notifyItemChanged(lastClickedPosition)
+            uiListingData[0].showPassword = true
         }
+        updateAdapter = true
     }
 
     private fun changeShowPassword(showPassword: Boolean) {

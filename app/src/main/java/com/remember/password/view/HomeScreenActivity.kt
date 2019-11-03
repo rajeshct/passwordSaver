@@ -63,8 +63,7 @@ class HomeScreenActivity : BaseActivity<ActivityMainBinding, HomeScreenViewModel
 
     override fun setThemeOfUserChoice() {
         setTheme(
-            if (sharedPreferenceUtils.getBoolean(DARK_THEME_SET))
-                R.style.AppThemeDark
+            if (sharedPreferenceUtils.getBoolean(DARK_THEME_SET)) R.style.AppThemeDark
             else R.style.AppThemeLight
         )
     }

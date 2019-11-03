@@ -2,7 +2,6 @@ package com.remember.password.view.masterpassword.viewmodel
 
 import android.app.Application
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.Bindable
 import androidx.lifecycle.viewModelScope
 import com.remember.password.BR
@@ -50,7 +49,7 @@ class MasterPasswordViewModel(
         // No action required here
     }
 
-    fun onSubmitClick(view: View) {
+    fun onSubmitClick() {
         if (isPerformClick()) {
             isButtonClicked = true
             error = isAnyError(password, confirmPassword)

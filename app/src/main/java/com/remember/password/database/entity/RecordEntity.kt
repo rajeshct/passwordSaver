@@ -3,7 +3,6 @@ package com.remember.password.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.remember.password.util.isValidPassword
 
 @Entity
 data class RecordEntity(
@@ -13,6 +12,6 @@ data class RecordEntity(
     , @ColumnInfo(name = "userName") var userName: String = ""
 ) {
     fun validRecord(): Boolean {
-        return (!title.isBlank() && !password.isBlank() && isValidPassword(password))
+        return (!title.isBlank() && !password.isBlank() && !userName.isBlank())
     }
 }

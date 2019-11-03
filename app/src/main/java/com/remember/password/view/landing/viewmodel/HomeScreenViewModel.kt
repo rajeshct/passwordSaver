@@ -45,7 +45,7 @@ class HomeScreenViewModel(application: Application, private val repository: Repo
 
     @Bindable
     var hideEmptyView = false
-        private set(value) {
+        internal set(value) {
             field = value
             notifyPropertyChanged(BR.hideEmptyView)
         }
@@ -67,8 +67,9 @@ class HomeScreenViewModel(application: Application, private val repository: Repo
                         OPEN_NEW_SCREEN
                     )
                 )
+            } else {
+                hideEmptyView = true
             }
-            hideEmptyView = true
         }
     }
 

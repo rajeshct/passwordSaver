@@ -8,6 +8,7 @@ const val UPDATE_PASSWORD = 4
 
 
 const val CLOSE_DIALOG = 100
+const val POP_STACK = 101
 const val INVALID_ACTION = -1
 const val SHOW_SNACK_BAR = 7
 const val CLOSE_DIALOG_WITH_SUCCESS = 8
