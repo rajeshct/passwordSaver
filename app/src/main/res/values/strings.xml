@@ -16,8 +16,6 @@
     <string name="label_update">Update</string>
     <string name="label_enter_master_password">Enter master password which will be used to view your all saved password.</string>
     <string name="label_save">Save</string>
-    <string name="error_weak_pwd">Week Password: length must be greater than 7</string>
-    <string name="error_pwd_match">Password not matching</string>
     <string name="label_password_length_note">Note: password length must be greater than 7.</string>
     <string name="font_biryani">biryani</string>
     <string name="error_master_pwd_match">Password not matched with original password</string>
@@ -25,4 +23,9 @@
     <string name="label_no_search_record">No record found with matching search.</string>
     <string name="alert_undo">1 item deleted </string>
     <string name="alert_undo_action">Undo</string>
+
+    <string name="error_weak_pwd">Week Password: length must be greater than 7</string>
+    <string name="error_pwd_match">Password not matching</string>
+    <string name="error_empty_title">Title must not be empty.</string>
+    <string name="error_empty_username">Username must not be empty.</string>
 </resources>

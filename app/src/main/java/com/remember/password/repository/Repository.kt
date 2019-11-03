@@ -71,7 +71,7 @@ class Repository(private val appDatabase: AppDatabase) {
 
     fun isMasterPasswordMatched(password: String): Boolean {
         val masterPassword = appDatabase.getMasterPasswordDao().getAllRecords()
-        return masterPassword != null && password.contentEquals(masterPassword.password)
+        return masterPassword != null && masterPassword.password.contentEquals(password)
     }
 
     fun removeRecords(deletedItems: MutableList<UiRecord>?) {
@@ -81,6 +81,10 @@ class Repository(private val appDatabase: AppDatabase) {
             })
             deletedItems.clear()
         }
+    }
+
+    fun updateRecordEntity(it: RecordEntity) {
+        appDatabase.getRecordDao().updateRecord(it)
     }
 
 }

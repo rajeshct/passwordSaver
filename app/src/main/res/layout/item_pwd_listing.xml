@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_1"
+        android:onClick="@{()->clickCallBack.onClick(position,0,data,Constant.UPDATE_PASSWORD)}"
         app:cardElevation="0.5dp"
         app:contentPadding="@dimen/dp_10">
 

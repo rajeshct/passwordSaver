@@ -31,7 +31,16 @@
         android:id="@+id/dialogEnterDetails"
         android:name="com.remember.password.view.enterdetails.DialogEnterDetails"
         android:label="DialogEnterDetails"
-        tools:layout="@layout/dialog_enter_details" />
+        tools:layout="@layout/dialog_enter_details">
+        <argument
+            android:name="openFor"
+            app:argType="integer" />
+        <argument
+            android:name="data"
+            android:defaultValue="@null"
+            app:argType="com.remember.password.data.UiRecord"
+            app:nullable="true" />
+    </dialog>
 
     <dialog
         android:id="@+id/inputPasswordFragment"

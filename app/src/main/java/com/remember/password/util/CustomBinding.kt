@@ -35,6 +35,15 @@ fun textInputError(textInputLayout: TextInputLayout, isError: Boolean, message: 
     }
 }
 
+@BindingAdapter("errorMessage")
+fun textInputError(textInputLayout: TextInputLayout, message: String?) {
+    if (message.isNullOrBlank()) {
+        textInputLayout.error = null
+    } else {
+        textInputLayout.error = message
+    }
+}
+
 @BindingAdapter("font")
 fun setFontInPasswordField(password: TextInputEditText, font: String) {
     val context = password.context

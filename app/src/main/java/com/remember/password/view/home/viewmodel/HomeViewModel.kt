@@ -102,26 +102,41 @@ class HomeViewModel(
 
     override fun onClick(position: Int, tag: Int, data: Any?, calledFor: Int) {
         if (data is UiRecord) {
-            this.lastClickedPosition = position
-            this.lastSavedUiRecord = data
-            if (this.lastSavedUiRecord?.showPassword == true) {
-                if (data.isHeader) {
-                    refreshListing()
-                } else {
-                    this.lastSavedUiRecord?.apply {
-                        showPassword = false
-                    }
-                    passwordListingAdapter?.notifyItemChanged(position)
-                }
-            } else {
-                switchScreen(
-                    CustomNavigation(
-                        navigation = HomeFragmentDirections.actionHomeFragmentToInputPasswordFragment(
-                            INPUT_PASSWORD
-                        ), actionId = OPEN_NEW_SCREEN
-                    )
-                )
+            if (calledFor == TAG_SHOW_HIDE_PASSWORD) {
+                showHideIconClick(position, data)
+            } else if (calledFor == UPDATE_PASSWORD) {
+                updatePassword(data)
             }
+        }
+    }
+
+    private fun updatePassword(data: UiRecord) {
+        val direction =
+            HomeFragmentDirections.actionHomeFragmentToDialogEnterDetails(UPDATE_PASSWORD)
+        direction.data = data
+        switchScreen(CustomNavigation(navigation = direction, actionId = OPEN_NEW_SCREEN))
+    }
+
+    private fun showHideIconClick(position: Int, data: UiRecord) {
+        this.lastClickedPosition = position
+        this.lastSavedUiRecord = data
+        if (this.lastSavedUiRecord?.showPassword == true) {
+            if (data.isHeader) {
+                refreshListing()
+            } else {
+                this.lastSavedUiRecord?.apply {
+                    showPassword = false
+                }
+                passwordListingAdapter?.notifyItemChanged(position)
+            }
+        } else {
+            switchScreen(
+                CustomNavigation(
+                    navigation = HomeFragmentDirections.actionHomeFragmentToInputPasswordFragment(
+                        VALIDATE_PASSWORD
+                    ), actionId = OPEN_NEW_SCREEN
+                )
+            )
         }
     }
 
@@ -148,8 +163,9 @@ class HomeViewModel(
             deleteRecordFromDb()
             switchScreen(
                 CustomNavigation(
-                    HomeFragmentDirections.actionHomeFragmentToDialogEnterDetails(),
-                    OPEN_NEW_SCREEN
+                    HomeFragmentDirections.actionHomeFragmentToDialogEnterDetails(
+                        INSERT_PASSWORD
+                    ), OPEN_NEW_SCREEN
                 )
             )
         }

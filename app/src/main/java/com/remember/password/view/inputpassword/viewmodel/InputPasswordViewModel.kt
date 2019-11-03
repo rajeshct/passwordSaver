@@ -58,7 +58,7 @@ class InputPasswordViewModel(customApplication: Application, private val reposit
 
     private fun isEnableError(): Boolean {
         return when (openFor) {
-            INPUT_PASSWORD -> !isValidPassword(password)
+            VALIDATE_PASSWORD -> !isValidPassword(password)
             UPDATE_PASSWORD -> !isValidPassword(password)
             else -> false
         }
@@ -76,7 +76,7 @@ class InputPasswordViewModel(customApplication: Application, private val reposit
             isButtonClicked = true
             enableError = isEnableError()
             if (!enableError) {
-                if (openFor == INPUT_PASSWORD) {
+                if (openFor == VALIDATE_PASSWORD) {
                     submitPasswordAction()
                 } else if (openFor == UPDATE_PASSWORD) {
                     updatePasswordAction()
@@ -104,5 +104,9 @@ class InputPasswordViewModel(customApplication: Application, private val reposit
         } else {
             triggerEvent(SHOW_SNACK_BAR)
         }
+    }
+
+    fun onCancelClick() {
+        triggerEvent(CLOSE_DIALOG)
     }
 }

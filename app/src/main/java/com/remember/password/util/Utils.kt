@@ -1,7 +1,5 @@
 package com.remember.password.util
 
-import android.text.TextUtils
-
 private var lastClickedTime: Long = 0
 
 fun isPerformClick(): Boolean {
@@ -11,8 +9,8 @@ fun isPerformClick(): Boolean {
     return isPerformClick
 }
 
-fun isValidPassword(password: String): Boolean {
-    return !(TextUtils.isEmpty(password) || password.length < 6)
+fun isValidPassword(password: String?): Boolean {
+    return !(password.isNullOrBlank() || password.length < 6)
 }
 
 fun isPasswordMatched(oldPassword: String, newPassword: String): Boolean {
@@ -23,4 +21,8 @@ fun isAnyError(password: String, confirmPassword: String): Boolean {
     return !(isValidPassword(password)
             && isValidPassword(confirmPassword)
             && isPasswordMatched(password, confirmPassword))
+}
+
+fun isBlank(input: String?): Boolean {
+    return input.isNullOrBlank()
 }
