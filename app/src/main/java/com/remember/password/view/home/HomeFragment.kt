@@ -19,6 +19,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private val homeScreenViewModel: HomeScreenViewModel by sharedViewModel()
 
     override fun actionAfterViewInflated() {
+        if (homeViewModel.uiListingData.isNotEmpty()) {
+            return
+        }
         observeListener()
         homeScreenViewModel.hideSearch = false
         homeScreenViewModel.hideSwitchTheme = false
@@ -64,5 +67,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun getViewModel(): HomeViewModel {
         return homeViewModel
+    }
+
+    override fun onPause() {
+        super.onPause()
+        homeViewModel.deleteRecordFromDb()
     }
 }

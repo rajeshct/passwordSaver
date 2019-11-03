@@ -61,13 +61,19 @@ class HomeViewModel(
 
     val uiListingData = mutableListOf<UiRecord>()
 
-    var lastSavedUiRecord: UiRecord? = null
+    private var lastSavedUiRecord: UiRecord? = null
 
-    private val deletedItems = mutableListOf<UiRecord>()
+    private var deletedItems: MutableList<UiRecord>? = null
+        get() {
+            if (field == null) {
+                field = mutableListOf()
+            }
+            return field
+        }
 
     var passwordListingAdapter: HomeListingAdapter? = null
 
-    var lastDeletedItemPosition = -1
+    private var lastClickedPosition = -1
 
     @Bindable
     var errorViewType: Int = SHOW_ADD_NEW_RECORD
@@ -96,6 +102,7 @@ class HomeViewModel(
 
     override fun onClick(position: Int, tag: Int, data: Any?, calledFor: Int) {
         if (data is UiRecord) {
+            this.lastClickedPosition = position
             this.lastSavedUiRecord = data
             if (this.lastSavedUiRecord?.showPassword == true) {
                 if (data.isHeader) {
@@ -104,7 +111,7 @@ class HomeViewModel(
                     this.lastSavedUiRecord?.apply {
                         showPassword = false
                     }
-                    updateAdapter = true
+                    passwordListingAdapter?.notifyItemChanged(position)
                 }
             } else {
                 switchScreen(
@@ -120,9 +127,9 @@ class HomeViewModel(
 
     override fun onSwipeDelete(position: Int, data: Any?, calledFor: Int) {
         if (data is UiRecord) {
-            this.lastDeletedItemPosition = position
+            this.lastClickedPosition = position
             this.lastSavedUiRecord = data
-            this.deletedItems.add(data)
+            this.deletedItems?.add(data)
             this.uiListingData.removeAt(position)
             if (uiListingData.size == 1) {
                 uiListingData.clear()
@@ -159,12 +166,13 @@ class HomeViewModel(
             } else {
                 changeShowPassword(true)
             }
+            updateAdapter = true
         } else {
             lastSavedUiRecord?.apply {
                 showPassword = !showPassword
             }
+            passwordListingAdapter?.notifyItemChanged(lastClickedPosition)
         }
-        updateAdapter = true
     }
 
     private fun changeShowPassword(showPassword: Boolean) {
@@ -214,14 +222,14 @@ class HomeViewModel(
         lastSavedUiRecord?.let {
             if (uiListingData.isEmpty()) {
                 uiListingData.add(0, getHeader())
-                uiListingData.add(lastDeletedItemPosition, it)
+                uiListingData.add(lastClickedPosition, it)
                 updateAdapter = true
             } else {
-                uiListingData.add(lastDeletedItemPosition, it)
-                passwordListingAdapter?.notifyItemInserted(lastDeletedItemPosition)
+                uiListingData.add(lastClickedPosition, it)
+                passwordListingAdapter?.notifyItemInserted(lastClickedPosition)
             }
             noRecord = false
-            deletedItems.remove(it)
+            deletedItems?.remove(it)
         }
     }
 
@@ -230,7 +238,7 @@ class HomeViewModel(
         super.onCleared()
     }
 
-    private fun deleteRecordFromDb() {
+    fun deleteRecordFromDb() {
         repository.removeRecords(deletedItems)
     }
 

@@ -74,11 +74,12 @@ class Repository(private val appDatabase: AppDatabase) {
         return masterPassword != null && password.contentEquals(masterPassword.password)
     }
 
-    fun removeRecords(deletedItems: MutableList<UiRecord>) {
+    fun removeRecords(deletedItems: MutableList<UiRecord>?) {
         if (!deletedItems.isNullOrEmpty()) {
             appDatabase.getRecordDao().deleteRecord(deletedItems.map {
                 return@map RecordEntity(id = it.id)
             })
+            deletedItems.clear()
         }
     }
 
