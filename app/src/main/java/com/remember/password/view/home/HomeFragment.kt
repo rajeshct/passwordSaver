@@ -56,8 +56,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             }
         })
 
-        homeViewModel.getUiData()
-
     }
 
     override fun getViewToInflate(): Int {

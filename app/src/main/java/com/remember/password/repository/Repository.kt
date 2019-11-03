@@ -1,5 +1,6 @@
 package com.remember.password.repository
 
+import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.remember.password.data.UiRecord
@@ -10,7 +11,7 @@ import com.remember.password.database.entity.RecordEntity
 class Repository(private val appDatabase: AppDatabase) {
 
     fun getPasswordRecordForUi(): LiveData<List<UiRecord>> {
-        return Transformations.map(getListingRecord()) {
+        return Transformations.map(getListingRecord(), Function {
             val allRecords = mutableListOf<UiRecord>()
             it.forEach { recordEntity ->
                 with(recordEntity) {
@@ -24,8 +25,8 @@ class Repository(private val appDatabase: AppDatabase) {
                     )
                 }
             }
-            return@map allRecords
-        }
+            return@Function allRecords
+        })
     }
 
     fun getRecordBasedOnUserSearch(filterText: String): LiveData<List<UiRecord>> {

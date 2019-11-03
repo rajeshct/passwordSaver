@@ -2,10 +2,13 @@ package com.remember.password.view.home.viewmodel
 
 import android.app.Application
 import android.os.Bundle
+import androidx.arch.core.util.Function
 import androidx.core.content.ContextCompat
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,11 +49,24 @@ class HomeViewModel(
     private val repository: Repository
 ) : BaseViewModel(customApplication), BaseDiAdapter.IClickCallback {
 
-    val uiListingRecordFromDb = MediatorLiveData<List<UiRecord>>()
+    private val searchChange = MutableLiveData<String>()
+
+    var uiListingRecordFromDb: LiveData<List<UiRecord>> =
+        Transformations.switchMap(searchChange, Function {
+            if (it.isNullOrBlank()) {
+                return@Function repository.getPasswordRecordForUi()
+            }
+            return@Function repository.getRecordBasedOnUserSearch(it)
+        })
+
     val uiListingData = mutableListOf<UiRecord>()
+
     var lastSavedUiRecord: UiRecord? = null
+
     private val deletedItems = mutableListOf<UiRecord>()
+
     var passwordListingAdapter: HomeListingAdapter? = null
+
     var lastDeletedItemPosition = -1
 
     @Bindable
@@ -75,7 +91,7 @@ class HomeViewModel(
         }
 
     override fun setArguments(bundle: Bundle?) {
-        // No action required here
+        getUiData()
     }
 
     override fun onClick(position: Int, tag: Int, data: Any?, calledFor: Int) {
@@ -132,10 +148,8 @@ class HomeViewModel(
         }
     }
 
-    fun getUiData() {
-        uiListingRecordFromDb.addSource(repository.getPasswordRecordForUi()) {
-            uiListingRecordFromDb.value = it
-        }
+    private fun getUiData() {
+        searchChange.value = ""
     }
 
     fun refreshListing() {
@@ -165,14 +179,13 @@ class HomeViewModel(
         if (it == null || it.isEmpty()) {
             noRecord = true
             uiListingData.clear()
-            updateAdapter = true
         } else {
             uiListingData.clear()
             uiListingData.add(getHeader())
             uiListingData.addAll(it)
-            updateAdapter = true
             noRecord = uiListingData.isEmpty()
         }
+        updateAdapter = true
     }
 
     private fun getHeader(): UiRecord {
@@ -192,16 +205,14 @@ class HomeViewModel(
             getUiData()
         } else {
             errorViewType = SHOW_NO_SEARCH_FOUND
-            uiListingRecordFromDb.addSource(repository.getRecordBasedOnUserSearch(userSearch)) {
-                uiListingRecordFromDb.value = it
-            }
+            searchChange.value = userSearch
         }
     }
 
 
     fun undoDeleteAction() {
         lastSavedUiRecord?.let {
-            if (uiListingData.size == 1) {
+            if (uiListingData.isEmpty()) {
                 uiListingData.add(0, getHeader())
                 uiListingData.add(lastDeletedItemPosition, it)
                 updateAdapter = true

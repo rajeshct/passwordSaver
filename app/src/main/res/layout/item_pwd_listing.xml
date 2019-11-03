@@ -52,7 +52,7 @@
                 style="@style/TestStyleNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{data.userName}"
+                android:text="@{data.showPassword?data.userName:@string/label_password_pattern}"
                 app:layout_constraintEnd_toStartOf="@+id/iv_visibility"
                 app:layout_constraintHorizontal_weight="0.65"
                 app:layout_constraintStart_toEndOf="@+id/tv_title"

@@ -68,6 +68,9 @@ class SwipeToDeleteCallback(var baseAdapter: BaseDiAdapter<*>, private val icon:
      * `direction` will be relative as well. ([.START] or [                   ][.END]).
      */
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        if (viewHolder is BaseDiAdapter.BaseViewHolder && viewHolder.isHeader) {
+            return
+        }
         val position = viewHolder.adapterPosition
         baseAdapter.deleteItem(position)
     }
